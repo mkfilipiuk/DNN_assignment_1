@@ -1,0 +1,7 @@
+{
+    "DATA_PATH": "fruits-360/",
+    "TRAIN_PATH": "Training/",
+    "TEST_PATH": "Test/",
+    "NUMBER_OF_EPOCHS": 15,
+    "DEVICE_NUMBER": 2
+}
