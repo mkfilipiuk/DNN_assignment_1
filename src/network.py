@@ -33,10 +33,11 @@ class Fruit_conv_net(nn.Module):
         x = self.fc3(x)
         return x
 
-def training(network, train_set_loader, validation_set_loader, number_of_epochs = 10):
+def training(network, train_set_loader, validation_set_loader, number_of_epochs = 10, optimizer=None):
     print('Training started')
+    if optimizer is None:
+        optimizer = optim.Adam(network.parameters(), lr=0.0001, weight_decay=1e-2)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(network.parameters(), lr=0.0001, weight_decay=1e-2)
     for epoch in range(number_of_epochs):
         for i, data in enumerate(train_set_loader, 0):
             inputs, labels = data
