@@ -54,3 +54,28 @@ def training(network, train_set_loader, validation_set_loader, number_of_epochs 
         print('Epoch ' + str(epoch) + ': Accuracy of the network:' + str(100*accuracy(network, validation_set_loader)) + '%')
 
     print('Finished Training')
+    
+def train_to_threshold(network, train_set_loader, validation_set_loader, threshold = 0.97, max_number_of_epochs=15, optimizer=None):
+    print('Training started')
+    if optimizer is None:
+        optimizer = optim.Adam(network.parameters(), lr=0.0001, weight_decay=1e-2)
+    criterion = nn.CrossEntropyLoss()
+    for epoch in range(max_number_of_epochs):
+        for i, data in enumerate(train_set_loader, 0):
+            inputs, labels = data
+            inputs = inputs.cuda()
+            labels = labels.cuda()
+
+            optimizer.zero_grad()
+
+            outputs = network(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+
+        network_accuracy = accuracy(network, validation_set_loader)
+        print('Epoch ' + str(epoch) + ': Accuracy of the network:' + str(100*network_accuracy) + '%')
+        if(network_accuracy > threshold):
+            break
+
+    print('Finished Training')
