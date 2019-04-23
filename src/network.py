@@ -78,16 +78,19 @@ def training(network, train_set_loader, validation_set_loader, number_of_epochs 
     
 def train_to_threshold(network, train_set_loader, validation_set_loader, threshold = 0.97, max_number_of_epochs=15, optimizer=None):
     print('Training started')
+    history_of_accuracy = []
     if optimizer is None:
         optimizer = optim.Adam(network.parameters(), lr=0.0001, weight_decay=1e-2)
     criterion = nn.CrossEntropyLoss()
     for epoch in range(max_number_of_epochs):
         epoch_training(network, optimizer, criterion, train_set_loader, validation_set_loader)
         network_accuracy = accuracy(network, validation_set_loader)
+        history_of_accuracy.append(network_accuracy)
         print('Epoch ' + str(epoch) + ': Accuracy of the network:' + str(100*network_accuracy) + '%')
         if(network_accuracy > threshold):
             break
-    print('Finished Training after ' + str(epoch) + 'epochs')
+    print('Finished Training after ' + str(epoch) + ' epochs')
+    return history_of_accuracy
 
 def get_gradients_of_image(network, images, labels, optimizer=None, criterion=None):
     if optimizer is None:
