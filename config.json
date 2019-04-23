@@ -3,5 +3,5 @@
     "TRAIN_PATH": "Training/",
     "TEST_PATH": "Test/",
     "NUMBER_OF_EPOCHS": 15,
-    "DEVICE_NUMBER": 2
+    "DEVICE_NUMBER": 0
 }
